@@ -1,0 +1,6 @@
+key,value
+package_name,Newtonsoft.Json
+repository,https://api.nuget.org/v3/index.json
+test_mode,false
+package_version,13.0.3
+output_file,dependencies.png

@@ -60,7 +60,7 @@ class ConfigTests(unittest.TestCase):
         self.write_settings()
         output = io.StringIO()
         with redirect_stdout(output):
-            status = main(["--config", str(self.config)])
+            status = main(["--config", str(self.config), "--config-only"])
         self.assertEqual(status, 0)
         self.assertIn("package_name = Newtonsoft.Json", output.getvalue())
         self.assertIn("test_mode = false", output.getvalue())
@@ -70,7 +70,7 @@ class ConfigTests(unittest.TestCase):
         self.write_settings({"package_name": "wrong name"})
         errors = io.StringIO()
         with redirect_stderr(errors):
-            status = main(["--config", str(self.config)])
+            status = main(["--config", str(self.config), "--config-only"])
         self.assertNotEqual(status, 0)
         self.assertIn("Ошибка конфигурации", errors.getvalue())
 

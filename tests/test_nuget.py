@@ -218,20 +218,20 @@ class NuGetTests(unittest.TestCase):
             mocked.assert_not_called()
         self.assertEqual(status, 0)
 
-    def test_test_mode_is_reserved(self):
-        """Режим локального графа появится только в третьем этапе."""
+    def test_test_mode_is_enabled(self):
+        """Локальный граф теперь обрабатывается третьим этапом."""
         with tempfile.TemporaryDirectory() as folder:
             config = Path(folder) / "config.csv"
             graph_file = Path(folder) / "graph.txt"
             graph_file.write_text("A -> B", encoding="utf-8")
             values = dict(GOOD_SETTINGS)
-            values.update({"repository": "graph.txt", "test_mode": "true"})
+            values.update({"package_name": "A", "repository": "graph.txt",
+                           "test_mode": "true"})
             self.write_config(config, values)
             output = io.StringIO()
             with redirect_stderr(output):
                 status = main(["--config", str(config)])
-        self.assertEqual(status, 1)
-        self.assertIn("этап 3", output.getvalue())
+        self.assertEqual(status, 0)
 
     @staticmethod
     def write_config(path, values=None):
